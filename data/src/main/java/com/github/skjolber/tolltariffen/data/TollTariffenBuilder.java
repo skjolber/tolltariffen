@@ -66,6 +66,7 @@ public class TollTariffenBuilder {
 		return this;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ToolTariffen build() throws Exception {
 		if(filter.isEmpty()) {
 			return new ToolTariffen(mapper.readValue(in, Map.class));
@@ -115,6 +116,7 @@ public class TollTariffenBuilder {
 			if(token == JsonToken.END_ARRAY) {
 				level--;
 			} else {
+				@SuppressWarnings("unchecked")
 				Map<String, Object> map = mapper.readValue(jParser, Map.class);
 				String code = (String) map.get("code");
 				if(filter.contains(code)) {

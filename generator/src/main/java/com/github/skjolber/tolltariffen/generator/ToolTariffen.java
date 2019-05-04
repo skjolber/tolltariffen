@@ -1,4 +1,4 @@
-package com.github.skjolber.tolltariffen.data;
+package com.github.skjolber.tolltariffen.generator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,7 @@ public class ToolTariffen {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected Map<String, Object> search(Map<String, Object> map, String code) {
 		String value = getValue(map, code);
 		if(value != null) {
@@ -62,6 +63,7 @@ public class ToolTariffen {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Map<String, Object> search(List<Map<String, Object>> list, Map<String, Object> map, String code) {
 		String value = getValue(map, code);
 		if(value != null) {

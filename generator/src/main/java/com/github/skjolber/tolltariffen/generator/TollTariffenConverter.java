@@ -10,6 +10,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+/**
+ * 
+ * Basically uses the indentation to organize the levels.
+ *
+ */
+
 public class TollTariffenConverter {
 
 	private int skipRows;
@@ -44,10 +50,9 @@ public class TollTariffenConverter {
 		try (
 				OutputStream out = new FileOutputStream(outputFile);
 				InputStream in = new FileInputStream(inputFile);
-				) {
+		) {
 			convert(in, out);
 		} 
-
 	}
 
 }

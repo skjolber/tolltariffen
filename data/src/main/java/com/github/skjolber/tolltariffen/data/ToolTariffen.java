@@ -1,6 +1,5 @@
 package com.github.skjolber.tolltariffen.data;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,7 @@ public class ToolTariffen {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected Map<String, Object> search(Map<String, Object> map, String code) {
 		String value = getValue(map, code);
 		if(value != null) {
@@ -67,6 +67,7 @@ public class ToolTariffen {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Map<String, Object> search(List<Map<String, Object>> list, Map<String, Object> map, String code) {
 		String value = getValue(map, code);
 		if(value != null) {

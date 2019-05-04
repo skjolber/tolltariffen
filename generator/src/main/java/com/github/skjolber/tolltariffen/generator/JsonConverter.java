@@ -62,6 +62,7 @@ public class JsonConverter implements Closeable {
 		jGenerator.close();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void write(String code, int nextLevel, String content) throws IOException {
 		nextLevel++;
 		
@@ -109,6 +110,7 @@ public class JsonConverter implements Closeable {
 		return content;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void popStack() {
 		Map<String, Object> child = stack.pop();
 		Map<String, Object> peek = stack.peek();

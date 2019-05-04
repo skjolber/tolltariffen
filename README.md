@@ -68,7 +68,7 @@ whereas a code which also has subcodes is stored as
 
 where the `code` field is optional. A simple `TollTariffen` tools is available for searching the files.
 
-Use the `TollTariffenTool` file to regenerate the files. 
+Use the `TollTariffenTool` file to regenerate the files (this is a manual operation). 
 
 # Get involved
 If you have any questions, comments or improvement suggestions, please file an issue or submit a pull-request.

@@ -11,9 +11,9 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.skjolber.tolltariffen.data.ToolTariffen;
 import com.github.skjolber.tolltariffen.generator.TollTariffenConverter;
 import com.github.skjolber.tolltariffen.generator.TollTariffenConverterBuilder;
+import com.github.skjolber.tolltariffen.generator.ToolTariffen;
 
 public class TollTariffenConverterTest {
 
@@ -23,10 +23,12 @@ public class TollTariffenConverterTest {
 		return parse(new ByteArrayInputStream(content));
 	}
 
+	@SuppressWarnings("unchecked")
 	private Map<String, Object> parse(InputStream in) throws Exception {
 		return  mapper.readValue(in, Map.class);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testParser() throws Exception {
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();

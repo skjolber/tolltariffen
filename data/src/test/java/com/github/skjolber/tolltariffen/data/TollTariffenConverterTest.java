@@ -2,19 +2,10 @@ package com.github.skjolber.tolltariffen.data;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.skjolber.tolltariffen.data.TollTariffenBuilder;
-import com.github.skjolber.tolltariffen.data.ToolTariffen;
 
 public class TollTariffenConverterTest {
 
