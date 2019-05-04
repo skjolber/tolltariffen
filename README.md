@@ -8,7 +8,7 @@ This library hosts a few converters and data files for the Norwegian customs cod
      * English, Norwegian
      * Single and full depth. 
 
-The original are available in pdf and excel, which are really not very well suited for my applications. So the input Excel file is converted to various JSON files.
+The original list is available in PDF and Excel, which are really not very well suited for my (and most people's) applications. So the input Excel file is converted to various JSON files.
 
 Bugs, feature suggestions and help requests can be filed with the [issue-tracker].
  
@@ -40,7 +40,6 @@ InputStream is = ..;
 ToolTariffen tollTariffen = TollTariffenBuilder.newBuilder().withInput(is)).build();
 		
 String search = tollTariffen.searchValue("01.01.3000");
-
 ```
 
 for loading just a subset of the codes, do with
@@ -52,7 +51,7 @@ ToolTariffen tollTariffen = TollTariffenBuilder.newBuilder().withCodes("01.01").
 where only top-level codes are supported.
 
 ## Details
-The data structure is 'interesting', with some subcategories not having codes. Basically codes without subcodes are normalized so that they are stored with a single key-value;
+The data structure is 'interesting', with some subcategories not having codes, only descriptions. Basically codes without subcodes are normalized so that they are stored with a single key-value;
 
 ```json
   "02.05.0000" : "Meat of horses, asses, mules or hinnies, fresh, chilled or frozen.",
@@ -60,15 +59,17 @@ The data structure is 'interesting', with some subcategories not having codes. B
 ```
 whereas a code which also has subcodes is stored as
 
+```json
 {
     "code" : "53.09",
-    "codes" : [ array of children],
+    "codes" : [ array of children ],
     "desc" : "Woven fabrics of flax."
 }
+```
 
 where the `code` field is optional. A simple `TollTariffen` tools is available for searching the files.
 
-Use the `TollTariffenTool` file to regenerate the files (this is a manual operation). 
+Use the `TollTariffenTool` in the `generator` project to regenerate the files (this is a manual operation for now). 
 
 # Get involved
 If you have any questions, comments or improvement suggestions, please file an issue or submit a pull-request.
@@ -80,5 +81,5 @@ If you have any questions, comments or improvement suggestions, please file an i
  - 1.0.0: Initial drop
 
 [Apache 2.0]: 			http://www.apache.org/licenses/LICENSE-2.0.html
-[issue-tracker]:		https://github.com/skjolber/tolltariffen/issues
-[Maven]:				http://maven.apache.org/
+[issue-tracker]:			https://github.com/skjolber/tolltariffen/issues
+[Maven]:					http://maven.apache.org/
