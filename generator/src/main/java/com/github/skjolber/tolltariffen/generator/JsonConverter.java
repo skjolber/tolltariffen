@@ -32,7 +32,7 @@ public class JsonConverter implements Closeable {
 		JsonFactory jfactory = new JsonFactory();
 		jGenerator = jfactory.createGenerator(out, JsonEncoding.UTF8);
 		jGenerator.setCodec(new ObjectMapper());
-		jGenerator.useDefaultPrettyPrinter();
+		//jGenerator.useDefaultPrettyPrinter();
 		
 		init();
 	}
