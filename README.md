@@ -37,7 +37,7 @@ Get the files by downloading them directly from this repository, or use the publ
 
 ```java
 InputStream is = ..;
-ToolTariffen tollTariffen = TollTariffenBuilder.newBuilder().withInput(is)).build();
+TollTariffen tollTariffen = TollTariffenBuilder.newBuilder().withInput(is)).build();
 		
 String search = tollTariffen.searchValue("01.01.3000");
 ```
@@ -45,7 +45,7 @@ String search = tollTariffen.searchValue("01.01.3000");
 for loading just a subset of the codes, do with
 
 ```java
-ToolTariffen tollTariffen = TollTariffenBuilder.newBuilder().withCodes("01.01").withInput(is).build();
+TollTariffen tollTariffen = TollTariffenBuilder.newBuilder().withCodes("01.01").withInput(is).build();
 ```
 
 where only top-level codes are supported.
