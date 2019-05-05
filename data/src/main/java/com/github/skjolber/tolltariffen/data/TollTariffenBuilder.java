@@ -67,9 +67,9 @@ public class TollTariffenBuilder {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ToolTariffen build() throws Exception {
+	public TollTariffen build() throws Exception {
 		if(filter.isEmpty()) {
-			return new ToolTariffen(mapper.readValue(in, Map.class));
+			return new TollTariffen(mapper.readValue(in, Map.class));
 		} else {
 			JsonFactory jfactory = new JsonFactory();
 			JsonParser jParser = jfactory.createParser(in);
@@ -103,7 +103,7 @@ public class TollTariffenBuilder {
 				}
 			} while(level > 0);
 			
-			return new ToolTariffen(map);
+			return new TollTariffen(map);
 		}
 	}
 

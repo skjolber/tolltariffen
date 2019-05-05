@@ -11,7 +11,7 @@ public class TollTariffenConverterTest {
 
 	@Test
 	public void testParser() throws Exception {
-		ToolTariffen tollTariffen = TollTariffenBuilder.newBuilder().withInput(getClass().getResourceAsStream("/tolltariffen/2019/tolltariffen-no.json")).build();
+		TollTariffen tollTariffen = TollTariffenBuilder.newBuilder().withInput(getClass().getResourceAsStream("/tolltariffen/2019/tolltariffen-no.json")).build();
 		
 		assertThat(tollTariffen.getYear()).isEqualTo("2019");
 		
@@ -27,7 +27,7 @@ public class TollTariffenConverterTest {
 	
 	@Test
 	public void testFilter() throws Exception {
-		ToolTariffen tollTariffen = TollTariffenBuilder.newBuilder().withCodes("01.01").withInput(getClass().getResourceAsStream("/tolltariffen/2019/tolltariffen-no.json")).build();
+		TollTariffen tollTariffen = TollTariffenBuilder.newBuilder().withCodes("01.01").withInput(getClass().getResourceAsStream("/tolltariffen/2019/tolltariffen-no.json")).build();
 		
 		assertThat(tollTariffen.getYear()).isEqualTo("2019");
 		

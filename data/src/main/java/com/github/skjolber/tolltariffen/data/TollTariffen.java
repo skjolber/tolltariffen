@@ -6,11 +6,11 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class ToolTariffen {
+public class TollTariffen {
 	
 	private Map<String, Object> root;
 
-	public ToolTariffen(Map<String, Object> map) {
+	public TollTariffen(Map<String, Object> map) {
 		this.root = map;
 	}
 	
