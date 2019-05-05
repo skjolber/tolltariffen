@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 public class TollTariffen {
 	
 	private Map<String, Object> root;
@@ -55,11 +53,11 @@ public class TollTariffen {
 		return searchTree(root, code);
 	}
 	
-	public String searchValue(String code) throws JsonProcessingException {
+	public String searchValue(String code) {
 		return searchValue(root, code);
 	}
 
-	protected String searchValue(Map<String, Object> map, String code) throws JsonProcessingException {
+	protected String searchValue(Map<String, Object> map, String code) {
 		Map<String, Object> value = search(map, code);
 		if(value != null) {
 			return getValue(value, code);
@@ -105,6 +103,10 @@ public class TollTariffen {
 
 	public int size() {
 		return root.size();
+	}
+	
+	public Map<String, Object> getData() {
+		return root;
 	}
 	
 }
