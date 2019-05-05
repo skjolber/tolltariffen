@@ -28,10 +28,10 @@ Example dependency config:
 # Usage
 Get the files by downloading them directly from this repository, or use the published artifact.
 
- * full depth (about 750k)
+ * full depth (about 600k)
      * tolltariffen/2019/tolltariffen-en.json
      * tolltariffen/2019/tolltariffen-no.json
- * single depth (about 170k)
+ * single depth (about 160k)
       * tolltariffen/2019/tolltariffen-en-1.json
       * tolltariffen/2019/tolltariffen-no-1.json
 
