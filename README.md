@@ -21,7 +21,7 @@ Example dependency config:
 <dependency>
     <groupId>com.github.skjolber.tolltariffen</groupId>
     <artifactId>data</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
@@ -78,6 +78,7 @@ If you have any questions, comments or improvement suggestions, please file an i
 [Apache 2.0]
 
 # History
+ - 1.0.4: Various adjustments
  - 1.0.0: Initial drop
 
 [Apache 2.0]: 			http://www.apache.org/licenses/LICENSE-2.0.html
