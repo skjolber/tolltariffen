@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/skjolber/tolltariffen.svg)](https://travis-ci.org/skjolber/tolltariffen)
-
+[![MvnRepository](https://badges.mvnrepository.com/badge/com.github.skjolber.tolltariffen/parent/badge.svg?label=MvnRepository)](https://mvnrepository.com/artifact/com.github.skjolber.tolltariffen/parent)
 # tolltariffen
 
 This library hosts a few converters and data files for the Norwegian customs codes:
