@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.skjolber.tolltariffen</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>2.0.0</version>
 	<name>Tolltariffen</name>
 	<description>Tolltariffen i ulike formater</description>
 	<url>https://github.com/skjolber/tolltariffen</url>
@@ -46,7 +46,7 @@
 		<connection>scm:git:git@github.com:skjolber/tolltariffen.git</connection>
 		<developerConnection>scm:git:git@github.com:skjolber/tolltariffen.git</developerConnection>
 		<url>git@github.com:skjolber/tolltariffen.git</url>
-		<tag>HEAD</tag>
+		<tag>parent-2.0.0</tag>
 	</scm>
 
 	<issueManagement>
