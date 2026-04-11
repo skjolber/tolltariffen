@@ -9,6 +9,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -65,7 +66,28 @@ public class TollTariffenConverterTest {
 	    TollTariffen tollTariffen2 = TollTariffenBuilder.newBuilder().withCodes("01.01").withInput(new ByteArrayInputStream(writer.toString().getBytes(StandardCharsets.UTF_8))).build();
 		search = tollTariffen2.searchValue("01.01.3000");
 		assertThat(search).isEqualTo("Esler");
-	    
 	}
-	
+
+	@Test
+	public void testGetAllCodes() throws Exception {
+		TollTariffen tollTariffen = TollTariffenBuilder.newBuilder().withInput(getClass().getResourceAsStream("/tolltariffen/2019/tolltariffen-no.json")).build();
+
+		Set<String> allCodes = tollTariffen.getAllCodes();
+
+		assertThat(allCodes.size()).isAtLeast(100);
+
+		assertThat(allCodes).contains("01.01.3000");
+	}
+
+	@Test
+	public void testGetAllCodesAndDescriptions() throws Exception {
+		TollTariffen tollTariffen = TollTariffenBuilder.newBuilder().withInput(getClass().getResourceAsStream("/tolltariffen/2019/tolltariffen-no.json")).build();
+
+		Map<String, String> allCodesAndDescriptions = tollTariffen.getAllCodesAndDescriptions();
+
+		assertThat(allCodesAndDescriptions.size()).isAtLeast(100);
+
+		assertThat(allCodesAndDescriptions).containsEntry("01.01.3000", "Esler");
+	}
+
 }

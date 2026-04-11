@@ -8,7 +8,7 @@ This library hosts a few converters and data files for the Norwegian customs cod
      * English, Norwegian
      * Single and full depth. 
 
-The original list is available in PDF and Excel, which are really not very well suited for my (and most people's) applications. So the input Excel file is converted to various JSON files.
+Note: Due to the limited interest in this repository, updated 2022+ data is not published here - get in touch if interesting.
 
 Bugs, feature suggestions and help requests can be filed with the [issue-tracker].
  
@@ -21,7 +21,7 @@ Example dependency config:
 <dependency>
     <groupId>com.github.skjolber.tolltariffen</groupId>
     <artifactId>data</artifactId>
-    <version>1.0.4</version>
+    <version>2.0.x</version>
 </dependency>
 ```
 
@@ -78,6 +78,7 @@ If you have any questions, comments or improvement suggestions, please file an i
 [Apache 2.0]
 
 # History
+ - 2.0.x: Drop generator
  - 1.0.4: Various adjustments
  - 1.0.0: Initial drop
 
