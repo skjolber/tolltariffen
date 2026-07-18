@@ -10,6 +10,10 @@ This library hosts a few converters and data files for the Norwegian customs cod
 Note: Due to the limited interest in this repository, updated 2022+ data is not published here (get in touch).
 
 Bugs, feature suggestions and help requests can be filed with the [issue-tracker].
+
+## Search
+
+A simple search web page is available [here](https://skjolber.github.io/tolltariffen/).
  
 ## Obtain
 The project is implemented in Java and built using [Maven]. The project is available on the central Maven repository.
