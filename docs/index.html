@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tolltariffen 2019 – Søk</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1a3a5c;
+      color: #fff;
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    header h1 { font-size: 1.4rem; font-weight: 600; flex: 1; }
+
+    .lang-toggle {
+      display: flex;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .lang-toggle button {
+      padding: 0.35rem 0.9rem;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .lang-toggle button.active {
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccd;
+      border-radius: 6px;
+      outline: none;
+      margin-bottom: 1rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .search-bar input:focus {
+      border-color: #1a3a5c;
+      box-shadow: 0 0 0 3px rgba(26,58,92,0.12);
+    }
+
+    #status {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.75rem;
+      min-height: 1.2em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    thead tr { background: #1a3a5c; color: #fff; }
+    thead th { padding: 0.65rem 1rem; text-align: left; font-weight: 600; font-size: 0.9rem; }
+
+    tbody tr { cursor: pointer; }
+    tbody tr:nth-child(even) { background: #f2f5f9; }
+    tbody tr:hover { background: #dde8f4; }
+
+    td { padding: 0.55rem 1rem; font-size: 0.9rem; vertical-align: top; }
+    td:first-child, td:nth-child(3) { white-space: nowrap; color: #1a3a5c; font-weight: 600; }
+
+    mark { background: #ffe066; border-radius: 2px; }
+
+    #empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #888;
+      font-size: 1rem;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(2rem);
+      background: #1a3a5c;
+      color: #fff;
+      padding: 0.55rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Tolltariffen 2019 – Søk</h1>
+  <div class="lang-toggle">
+    <button id="btn-no" class="active" onclick="setLang('no')">Norsk</button>
+    <button id="btn-en" onclick="setLang('en')">English</button>
+  </div>
+</header>
+
+<div id="toast"></div>
+
+<main>
+  <div class="search-bar">
+    <input type="search" id="query" autocomplete="off" />
+  </div>
+  <div id="status"></div>
+  <div id="results"></div>
+</main>
+
+<script>
+  const BASE = 'https://raw.githubusercontent.com/skjolber/tolltariffen/refs/heads/master/data/src/main/resources/tolltariffen/2019/';
+  const cache = {};
+  let currentLang = 'no';
+  let debounceTimer = null;
+
+  const labels = {
+    no: { placeholder: 'Søk på varekode eller beskrivelse…', code: 'Varekode', desc: 'Beskrivelse', parentCode: 'Overordnet kode', parentDesc: 'Overordnet beskrivelse', loading: 'Laster data…', error: 'Klarte ikke å laste data: ', hint: n => 'Skriv et søkeord for å filtrere ' + n + ' oppføringer.', hits: (n, q) => n + ' treff for "' + q + '"', none: 'Ingen oppføringer funnet.', more: (shown, total) => 'Viser de første ' + shown + ' av ' + total + ' treff. Prøv et mer spesifikt søk.', copied: code => 'Kopiert: ' + code },
+    en: { placeholder: 'Search tariff code or description…', code: 'Code', desc: 'Description', parentCode: 'Parent code', parentDesc: 'Parent description', loading: 'Loading data…', error: 'Failed to load data: ', hint: n => 'Enter a search term to filter ' + n + ' entries.', hits: (n, q) => n + ' results for "' + q + '"', none: 'No entries found.', more: (shown, total) => 'Showing first ' + shown + ' of ' + total + ' results. Refine your search to see more.', copied: code => 'Copied: ' + code }
+  };
+
+  const indexCache = {};
+
+  function buildIndex(data) {
+    const index = [];
+    function traverse(node, parentCode, parentDesc, groups) {
+      for (const [k, v] of Object.entries(node)) {
+        if (k === 'code' || k === 'desc' || k === 'codes' || k === 'year') continue;
+        index.push({ code: k, desc: v, parentCode, parentDesc, path: groups.length ? groups.join(' › ') : null });
+      }
+      if (node.codes) {
+        for (const child of node.codes) {
+          if (child.code) traverse(child, child.code, child.desc, []);
+          else traverse(child, parentCode, parentDesc, [...groups, child.desc]);
+        }
+      }
+    }
+    for (const heading of data.codes) traverse(heading, heading.code, heading.desc, []);
+    return index;
+  }
+
+  async function loadLang(lang) {
+    if (indexCache[lang]) return true;
+    setStatus(labels[lang].loading);
+    try {
+      const res = await fetch(BASE + 'tolltariffen-' + lang + '.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      indexCache[lang] = buildIndex(await res.json());
+    } catch (e) {
+      setStatus(labels[lang].error + e.message);
+      return false;
+    }
+    return true;
+  }
+
+  async function setLang(lang) {
+    currentLang = lang;
+    document.getElementById('btn-no').classList.toggle('active', lang === 'no');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('query').placeholder = labels[lang].placeholder;
+    document.documentElement.lang = lang;
+    if (await loadLang(lang)) runSearch();
+  }
+
+  function setStatus(msg) {
+    document.getElementById('status').textContent = msg;
+  }
+
+  function escape(str) {
+    return str.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+
+  function highlight(str, terms) {
+    if (!terms.length) return escape(str);
+    const pattern = new RegExp('(' + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+    return escape(str).replace(pattern, '<mark>$1</mark>');
+  }
+
+  function runSearch() {
+    const index = indexCache[currentLang];
+    if (!index) return;
+    const L = labels[currentLang];
+
+    const raw = document.getElementById('query').value.trim();
+    const terms = raw.length ? raw.split(/\s+/).filter(Boolean) : [];
+    const resultsEl = document.getElementById('results');
+
+    if (!terms.length) {
+      setStatus(L.hint(index.length.toLocaleString()));
+      resultsEl.innerHTML = '';
+      return;
+    }
+
+    const lower = terms.map(t => t.toLowerCase());
+    const matches = index.filter(e =>
+      lower.every(t => (e.code + ' ' + e.desc + ' ' + e.parentCode + ' ' + e.parentDesc + ' ' + (e.path || '')).toLowerCase().includes(t))
+    );
+
+    setStatus(L.hits(matches.length.toLocaleString(), escape(raw)));
+
+    if (!matches.length) {
+      resultsEl.innerHTML = '<p id="empty">' + L.none + '</p>';
+      return;
+    }
+
+    const MAX = 500;
+    const shown = matches.slice(0, MAX);
+    let html = '<table><thead><tr><th>' + L.code + '</th><th>' + L.desc + '</th><th>' + L.parentCode + '</th><th>' + L.parentDesc + '</th></tr></thead><tbody>';
+    for (const e of shown) {
+      let pDesc = highlight(e.parentDesc, terms);
+      if (e.path) pDesc += '<br><small style="color:#888">' + highlight(e.path, terms) + '</small>';
+      html += '<tr data-code="' + escape(e.code) + '"><td>' + highlight(e.code, terms) + '</td><td>' + highlight(e.desc, terms) + '</td><td>' + highlight(e.parentCode, terms) + '</td><td>' + pDesc + '</td></tr>';
+    }
+    html += '</tbody></table>';
+    if (matches.length > MAX) {
+      html += '<p style="margin-top:.5rem;font-size:.85rem;color:#666">' + L.more(MAX, matches.length.toLocaleString()) + '</p>';
+    }
+    resultsEl.innerHTML = html;
+  }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  document.getElementById('results').addEventListener('click', e => {
+    const row = e.target.closest('tr[data-code]');
+    if (!row) return;
+    navigator.clipboard.writeText(row.dataset.code).then(() =>
+      showToast(labels[currentLang].copied(row.dataset.code))
+    );
+  });
+
+  document.getElementById('query').addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(runSearch, 180);
+  });
+
+  setLang('no');
+</script>
+</body>
+</html>
