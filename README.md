@@ -7,7 +7,7 @@ This library hosts a few converters and data files for the Norwegian customs cod
      * English, Norwegian
      * Single and full depth. 
 
-Note: Due to the limited interest in this repository, updated 2022+ data is not published here - get in touch if interesting.
+Note: Due to the limited interest in this repository, updated 2022+ data is not published here (get in touch).
 
 Bugs, feature suggestions and help requests can be filed with the [issue-tracker].
  
