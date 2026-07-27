@@ -17,7 +17,7 @@
 
 		<google-truth.version>1.4.5</google-truth.version>
 		<jackson.version>2.22.1</jackson.version>
-		<junit.version>6.1.1</junit.version>
+		<junit.version>6.1.2</junit.version>
 
 		<!-- plugins -->
 		<build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
