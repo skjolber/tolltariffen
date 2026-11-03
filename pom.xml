@@ -178,7 +178,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.6.3</version>
+				<version>3.7.0</version>
 				<executions>
 					<execution>
 						<id>enforce-versions</id>
@@ -197,7 +197,7 @@
 										(http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
 								</bannedPlugins>
 								<requireMavenVersion>
-									<version>3.6.3</version>
+									<version>3.7.0</version>
 								</requireMavenVersion>
 								<requireJavaVersion>
 									<version>25</version>
